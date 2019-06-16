@@ -3,14 +3,12 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class Controller {
 
@@ -54,21 +52,18 @@ public class Controller {
         });
 
         deleteCell.setOnAction(event -> {
+            int row = table.getSelectionModel().getSelectedIndex();
+            if(row >= 0){
+                Alert conf = new Alert(Alert.AlertType.CONFIRMATION);
+                conf.setContentText("Вы уверены, что хотите удалить выделенную запись?");
 
-        });
+                Optional<ButtonType> option = conf.showAndWait();
 
-        /*
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                table.setItems(listData);
+                if (option.get() == ButtonType.OK) {
+                    table.getItems().remove(row);
+                }
             }
-        });*/
-
-    }
-
-    private void deleteFullStringInTable(TableColumn<User, String> tableColumn){
-
+        });
     }
 
     private void initCellTableColAsTextField (TableColumn<User, String> tableColumn ,String nameFieldUser){
