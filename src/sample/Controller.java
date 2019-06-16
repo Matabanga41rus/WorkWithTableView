@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,31 +16,47 @@ public class Controller {
 
     private ObservableList<User> listData;
 
+    private String[] listNameColumn = {"C1", "C2"};
+
     @FXML
     private TableView<User> table;
 
     @FXML
-    private TableColumn<User, String> firstColumn;
+    private TableColumn<User, String> firstCell;
 
     @FXML
-    private TableColumn<User, String> secondColumn;
+    private TableColumn<User, String> secondCell;
 
     @FXML
     private Button addCellInTable;
 
     @FXML
+    private Button deleteCell;
+
+    @FXML
     public void initialize(){
         table.setEditable(true);
 
-        initCellTableColAsTextField(firstColumn, "firstColumn");
-        initCellTableColAsTextField(secondColumn, "secondColumn");
+        initCellTableColAsTextField(firstCell, "firstCell");
+        initCellTableColAsTextField(secondCell, "secondCell");
 
-        updateCell(firstColumn);
-        updateCell(secondColumn);
+        updateCell(firstCell);
+        updateCell(secondCell);
 
         listData = getListData();
 
         table.setItems(listData);
+        System.out.println(listData);
+        table.refresh();
+
+        addCellInTable.setOnAction(event -> {
+            listData.add(new User("null", "null"));
+        });
+
+        deleteCell.setOnAction(event -> {
+
+        });
+
         /*
         Platform.runLater(new Runnable() {
             @Override
@@ -49,10 +64,15 @@ public class Controller {
                 table.setItems(listData);
             }
         });*/
+
+    }
+
+    private void deleteFullStringInTable(TableColumn<User, String> tableColumn){
+
     }
 
     private void initCellTableColAsTextField (TableColumn<User, String> tableColumn ,String nameFieldUser){
-        tableColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        tableColumn.setCellValueFactory(new PropertyValueFactory<>(nameFieldUser));
 
         tableColumn.setCellFactory(TextFieldTableCell.<User> forTableColumn());
     }
@@ -84,10 +104,6 @@ public class Controller {
                 }break;
             }
         });
-    }
-
-    private void addCell(TableColumn<User, String> tableColumn){
-
     }
 
     private ObservableList<User> getListData() {
