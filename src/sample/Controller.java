@@ -11,6 +11,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
+import java.util.ArrayList;
+
 public class Controller {
 
     private ObservableList<User> listData;
@@ -63,9 +65,24 @@ public class Controller {
 
             int row = pos.getRow();
 
-            User user = event.getTableView().getItems().get(row);
+            // switching on a list of columns
+            switch (tableColumn.getText()){
+                case "C1":{
+                    User user = event.getTableView().getItems().get(row);
 
-            user.setFirstCell(newCell);
+                    user.setFirstCell(newCell);
+
+                    System.out.println(user.getFirstCell() + "   " + user.getSecondCell());
+                }break;
+
+                case "C2":{
+                    User user = event.getTableView().getItems().get(row);
+
+                    user.setSecondCell(newCell);
+
+                    System.out.println(user.getFirstCell() + "   " + user.getSecondCell());
+                }break;
+            }
         });
     }
 
@@ -78,9 +95,12 @@ public class Controller {
         User user2 = new User("dshfghd", "yukfgh");
         User user3 = new User("adjdfhhnvgaaaa", "tyrutye");
 
+        ArrayList<User> sd = new ArrayList<>();
+        sd.add(user1);
+        sd.add(user2);
+        sd.add(user3);
 
-        ObservableList<User> list = FXCollections.observableArrayList(user1,user2,user3);
-        return list;
+        return FXCollections.observableArrayList(sd);
     }
 
     public void setListData(ObservableList<User> listData) {
